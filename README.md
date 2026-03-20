@@ -50,6 +50,14 @@ Clearance volume is derived from the compression ratio:
 V_clearance = V_swept / (CR − 1)
 ```
 
+### Crankcase Volume
+
+The crankcase volume is calculated to model the fresh charge induction phase. Its maximum volume (at TDC) is derived from the swept volume and the crankcase compression ratio (CCR):
+
+```
+V_crankcase_max = (V_swept / (CCR − 1)) + V_swept
+```
+
 ### Port Timing
 
 Port opening angles are calculated geometrically by inverting the piston position equation. Given a port height measured from the top of the cylinder, the crank angle at which the piston uncovers the port is:
@@ -76,27 +84,33 @@ During the closed portion of the cycle (both ports covered), mass `m`, gas const
 
 ```
 .
-├── main.c          # Entry point — simulation loop, output
+├── source/
+│   ├── sim.c       # Entry point — simulation loop, output
+│   ├── engine.c    # Engine kinematics and geometry math
+│   ├── engine.h    # EngineSpecs struct and constants
+│   ├── therm.c     # Gas state and pressure logic
+│   └── therm.h     # Atmospheric constants
+├── Makefile        # Incremental build script
 └── README.md
 ```
 
-All engine geometry, port timing, volume calculation, and pressure functions are currently in `main.c`.
+The codebase is modularized cleanly into geometry (`engine`) and thermodynamic (`therm`) files.
 
 ---
 
 ## Building & Running
 
-Requires a C compiler and the standard math library.
+This project uses a standard `Makefile` for incremental builds.
 
 ```bash
-# GCC
-gcc -o sim main.c -lm
+# Build the project
+make
 
-# Clang
-clang -o sim main.c -lm
-
-# Run
+# Run the simulator
 ./sim
+
+# Clean build artifacts
+make clean
 ```
 
 ### Output
@@ -120,7 +134,6 @@ This is an early-stage simulator. The following are known simplifications that w
 
 - **Isothermal assumption** — temperature is currently fixed at 293.15 K. A proper heat release / combustion model is needed.
 - **Open cycle pressure** — when ports open, pressure is snapped to `P_atm`. Real scavenging involves gas dynamics and should use a filling-and-emptying or method-of-characteristics approach (per Blair Ch. 2–5).
-- **No crankcase model** — 2-stroke engines pump fresh charge through the crankcase. A crankcase volume and pressure model is required.
 - **No fuel/air mixture** — currently pure air. Fuel properties and equivalence ratio need to be introduced.
 - **No exhaust pipe acoustics** — the power valve and tuned expansion chamber are central to the YZ125's performance and are not yet modelled.
 - **Single-zone combustion** — no ignition timing, burn rate (Wiebe function), or knock model yet.
