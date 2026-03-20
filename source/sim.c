@@ -38,5 +38,5 @@ int main() {
     totalAngle += angleStep;
   }
   printf("the max crankcase volume is %f mm^3 (%.1f CC)\n",
-         get_crankcase_volume(engine), get_crankcase_volume(engine) / 1000.0);
+         get_crankcase_volume(engine, 0.0), get_crankcase_volume(engine, 0.0) / 1000.0);
 }

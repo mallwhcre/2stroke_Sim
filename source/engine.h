@@ -22,6 +22,6 @@ double get_swept(EngineSpecs engine);
 double get_clearance(EngineSpecs engine);
 double get_volume(EngineSpecs engine, double crankAngle);
 double get_port_angle(double portHeight, EngineSpecs engine);
-double get_crankcase_volume(EngineSpecs engine);
+double get_crankcase_volume(EngineSpecs engine, double crankAngle);
 
 #endif

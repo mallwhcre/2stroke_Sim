@@ -10,8 +10,8 @@ double get_piston_pos(double crankAngle, EngineSpecs engine) {
 
   double rad = crankAngle * M_PI / 180.0; // convert to radians
 
-  h = engine.conRod + engine.crank_throw *(1 - cos(rad)) -
-      sqrt(pow(engine.conRod, 2) - pow(engine.crank_throw *sin(rad), 2));
+  h = engine.conRod + engine.crank_throw * (1 - cos(rad)) -
+      sqrt(pow(engine.conRod, 2) - pow(engine.crank_throw * sin(rad), 2));
 
   return h;
 }
@@ -46,17 +46,25 @@ double get_volume(EngineSpecs engine, double crankAngle) {
 double get_port_angle(double portHeight, EngineSpecs engine) {
   double angle;
 
-  angle = acos((pow((engine.conRod + engine.crank_throw -portHeight), 2) -
+  angle = acos((pow((engine.conRod + engine.crank_throw - portHeight), 2) -
                 pow(engine.conRod, 2) + pow(engine.crank_throw, 2)) /
-               (2 * engine.crank_throw *(engine.conRod + engine.crank_throw -portHeight)));
+               (2 * engine.crank_throw *
+                (engine.conRod + engine.crank_throw - portHeight)));
 
   return angle * 180 / M_PI;
 }
 
-double get_crankcase_volume(EngineSpecs engine) {
+double get_crankcase_volume(EngineSpecs engine, double crankAngle) {
   double volume;
   // Maximum crankcase volume (at TDC) = Clearance + Swept
-  volume = (get_swept(engine) / (engine.crankCcr - 1)) + get_swept(engine);
+  double max_volume =
+      (get_swept(engine) / (engine.crankCcr - 1)) + get_swept(engine);
+
+  // Piston descending decreases crankcase volume
+  double pistonArea = (M_PI / 4) * pow(engine.bore, 2);
+  double pistonPos = get_piston_pos(crankAngle, engine);
+
+  volume = max_volume - (pistonArea * pistonPos);
 
   return volume;
 }
