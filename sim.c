@@ -14,7 +14,6 @@
 
 #define ePort 28.0 // mm from top
 #define tPort 41.0 // mm from top
-// yz125 2005
 
 typedef struct {
 
@@ -23,14 +22,19 @@ typedef struct {
   double conRod;
   double throw;
   double compRatio;
+  double crankCcr; // crankcase comp ratio
 
 } EngineSpecs;
 
-const EngineSpecs engine = {.bore = 54.0,
-                            .stroke = 54.5,
-                            .conRod = 102.0,
-                            .throw = 54.5 / 2.0,
-                            .compRatio = 10.7};
+// yz125 2005
+const EngineSpecs engine = {
+    .bore = 54.0,
+    .stroke = 54.5,
+    .conRod = 102.0,
+    .throw = 54.5 / 2.0,
+    .compRatio = 10.7,
+    .crankCcr = 1.3 //!!! Not real data cannot find it!!
+};
 
 double get_piston_pos(double crankAngle, EngineSpecs engine);
 double get_swept(EngineSpecs engine);
@@ -39,6 +43,7 @@ double get_volume(EngineSpecs engine, double crankAngle);
 double get_pressure(double crankAngle, double volume, double temperature,
                     double mass);
 double get_port_angle(double portHeight, EngineSpecs engine);
+double get_crankcase_volume(EngineSpecs engine);
 
 int main() {
   double mass = (P_atm * (get_volume(engine, BDC) / 1e9)) / (R_air * T_atm);
@@ -140,4 +145,10 @@ double get_port_angle(double portHeight, EngineSpecs engine) {
                (2 * engine.throw *(engine.conRod + engine.throw -portHeight)));
 
   return angle * 180 / M_PI;
+}
+
+double get_crankcase_volume(EngineSpecs engine) {
+  double volume;
+  volume = get_swept(engine) / (engine.crankCcr - 1);
+  return volume;
 }
