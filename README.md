@@ -3,9 +3,20 @@
 A zero-dimensional (0D) thermodynamic simulator for a 2-stroke engine, modelled after the **2005 Yamaha YZ125**. Written in C, this project simulates in-cylinder pressure and piston kinematics across the crank cycle.
 
 > **Reference:** Blair, G. P. — *Design and Simulation of Two-Stroke Engines* (SAE International)
-
 ---
 
+## Notes
+ 
+> ⚠️ **Estimated Parameters**
+>
+> The following values are currently based on estimations or derived calculations, not direct physical measurement:
+>
+> - **Crankcase Volume** — the crankcase compression ratio (CCR) and resulting crankcase volume are estimated. These will be replaced with measurements taken directly from a disassembled engine.
+> - **Reed Valve Assembly** — reed valve geometry (petal dimensions, cage angle, stop plate clearance) has not yet been measured. These parameters are not currently modelled but will be incorporated once real-life measurements are available.
+>
+> If you are building on this simulator, treat any results sensitive to crankcase dynamics with caution until these values are verified.
+ 
+---
 ## What is a 0D Simulator?
 
 A zero-dimensional simulator treats the cylinder as a single, spatially uniform control volume — no spatial gradients, no CFD. Every quantity (pressure, temperature, mass) is assumed uniform throughout the volume at each crank angle step. This is the standard starting point for engine cycle simulation and is the approach used throughout Blair's textbook.
