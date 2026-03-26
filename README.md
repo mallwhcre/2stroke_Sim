@@ -9,10 +9,10 @@ A zero-dimensional (0D) thermodynamic simulator for a 2-stroke engine, modelled 
  
 > ⚠️ **Estimated Parameters**
 >
-> The following values are currently based on estimations or derived calculations, not direct physical measurement:
+> The following values are currently based on estimations or derived calculations, not direct physical measurement, and will be replaced with direct measurements soon:
 >
-> - **Crankcase Volume** — the crankcase compression ratio (CCR) and resulting crankcase volume are estimated. These will be replaced with measurements taken directly from a disassembled engine.
-> - **Reed Valve Assembly** — reed valve geometry (petal dimensions, cage angle, stop plate clearance) these parameters are yet to be measured, their implementation is based off of rough estimates at the moment.
+> - **Crankcase Volume** — the crankcase compression ratio (CCR) and resulting crankcase volume are estimated.
+> - **Reed Valve Assembly** — reed valve geometry (petal dimensions, cage angle, stop plate clearance), also estimated referncing measurements from different aftermarket assemblies.
 >
 > If you are building on this simulator, treat any results sensitive to crankcase dynamics with caution until these values are verified.
  
