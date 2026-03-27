@@ -155,3 +155,4 @@ This is an early-stage simulator. The following are known simplifications that w
 
 - Blair, G. P. *Design and Simulation of Two-Stroke Engines.* SAE International
 - 2005 Yamaha YZ125 factory service manual (geometry reference).
+-https://www.structx.com/Beam_Formulas_019.html
