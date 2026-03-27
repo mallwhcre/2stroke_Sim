@@ -56,11 +56,11 @@ double get_port_angle(double portHeight, EngineSpecs engine) {
 
 double get_crankcase_volume(EngineSpecs engine, double crankAngle) {
   double volume;
-  // Maximum crankcase volume (at TDC) = Clearance + Swept
+  // crank volume at tdc
   double max_volume =
       (get_swept(engine) / (engine.crankCcr - 1)) + get_swept(engine);
 
-  // Piston descending decreases crankcase volume
+  // crankcase volume calcuated based off of the
   double pistonArea = (M_PI / 4) * pow(engine.bore, 2);
   double pistonPos = get_piston_pos(crankAngle, engine);
 

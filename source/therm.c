@@ -1,5 +1,6 @@
 #include "therm.h"
 #include "engine.h"
+#include <math.h>
 
 double get_pressure(double crankAngle, double volume, double temperature,
                     double mass, EngineSpecs engine) {
@@ -25,4 +26,27 @@ double get_pressure(double crankAngle, double volume, double temperature,
     pressure = P_atm;
 
   return pressure;
+}
+
+double get_reed_inertia(ReedPetal reed) {
+  double inertia;
+
+  inertia = (reed.width * pow(reed.length, 2)) / 12;
+  return inertia;
+}
+
+double get_reed_stiffness(ReedPetal reed) {
+  double stiffness;
+
+  stiffness =
+      (3 * reed.youngsModulus * get_reed_inertia(reed)) / pow(reed.length, 3);
+  return stiffness;
+}
+
+double get_cracking_dp(ReedPetal reed, double crackingThresh) {
+  double dp;
+
+  dp = (8 * reed.youngsModulus * get_reed_inertia(reed) * crackingThresh) /
+       (reed.width * pow(reed.length, 4));
+  return dp;
 }
