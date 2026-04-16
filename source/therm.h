@@ -3,7 +3,7 @@
 
 #include "engine.h"
 
-#define R_air 287.05   // mm^3
+#define R_air 287.05   // J/(kg·K)
 #define T_atm 293.15   // 20 deg c in kelvin
 #define P_atm 101325.0 // atmospheric pressure in pascals
 
@@ -21,7 +21,7 @@ typedef struct {
   double thickness; // mm
   double max_lift;  // mm
 
-  double stiffness;   // k M/mm
+  double stiffness;   // k N/mm
   double cracking_dp; // Pa, minimum ΔP to begin opening
 
   // Flow
@@ -34,4 +34,5 @@ double get_pressure(double crankAngle, double volume, double temperature,
 
 double get_reed_inertia(ReedPetal reed);
 double get_reed_stiffness(ReedPetal reed);
+double get_cracking_dp(ReedPetal reed, double crackingThresh);
 #endif
