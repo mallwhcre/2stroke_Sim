@@ -13,21 +13,36 @@ typedef struct {
   double opening_rate; // d(opening)/dt
 
   // material
-  double youngsModulus;
+  double youngsModulus; // GPa
 
   // Geometry
   double length;    // mm
   double width;     // mm
   double thickness; // mm
-  double max_lift;  // mm
+  double maxlift;   // mm
 
   double stiffness;   // k N/mm
   double cracking_dp; // Pa, minimum ΔP to begin opening
 
   // Flow
-  double cd;             // discharge coefficient
-  double effective_area; // mm², full-open area (length × width)
+  double cd_low;  // discharge coefficient
+  double cd_high; // discharge coefficient
+
 } ReedPetal;
+
+typedef struct {
+
+  int num_ports; // number of ports
+
+  double length; // port cutout length mm
+  double width;  // port cutout width mm
+
+  double angle; // angle of reed block  degrees
+
+  double r;           // corner radius of port cutout
+  double stop_height; // mm
+
+} ReedBlock;
 
 double get_pressure(double crankAngle, double volume, double temperature,
                     double mass, EngineSpecs engine);
@@ -35,4 +50,9 @@ double get_pressure(double crankAngle, double volume, double temperature,
 double get_reed_inertia(ReedPetal reed);
 double get_reed_stiffness(ReedPetal reed);
 double get_cracking_dp(ReedPetal reed, double crackingThresh);
+
+double get_throat_area(ReedBlock block);
+double get_pipe_area(ReedBlock block);
+double get_port_area(ReedBlock block);
+
 #endif
