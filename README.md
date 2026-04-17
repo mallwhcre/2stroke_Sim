@@ -37,6 +37,33 @@ A zero-dimensional simulator treats the cylinder as a single, spatially uniform 
 
 ---
 
+## Reed Valve Specifications — V302A VForce3
+
+Reed valve and reed block geometry are referenced from the **V302A VForce3** aftermarket reed valve assembly. The reed block and reed valve are assumed to have the same measurements. Reed block dimensions describe the **port cutout** geometry.
+
+### Reed Petal
+
+| Parameter | Value | Notes |
+|---|---|---|
+| Young's Modulus | 70 GPa | Assumed — woven carbon fiber |
+| Length | 43.7 mm | |
+| Width | 60.0 mm | |
+| Thickness | 0.5 mm | Assumed |
+| Max Lift | 8.0 mm | Assumed |
+
+### Reed Block (Port Cutout)
+
+| Parameter | Value | Notes |
+|---|---|---|
+| Number of Ports | 2 | |
+| Length | 33.5 mm | Port cutout length |
+| Width | 39.6 mm | Port cutout width |
+| Angle | 90° | Assumed — simplified for calculations |
+| Corner Radius | 0.919 mm | Semicircle radius of port cutout |
+| Stop Height | 8 mm | Assumed |
+
+---
+
 ## Physics & Modelling
 
 ### Piston Position
