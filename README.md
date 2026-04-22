@@ -59,7 +59,7 @@ Reed valve and reed block geometry are referenced from the **V302A VForce3** aft
 | Length | 33.5 mm | Port cutout length |
 | Width | 39.6 mm | Port cutout width |
 | Angle | 90° | Assumed — simplified for calculations |
-| Corner Radius | 0.919 mm | Semicircle radius of port cutout |
+| Corner Radius | 1 mm | Assummed |
 | Stop Height | 8 mm | Assumed |
 
 ---
