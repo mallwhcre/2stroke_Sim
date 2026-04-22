@@ -19,7 +19,7 @@ const EngineSpecs engine = {.bore = 54.0, // all in mm
                             .tPort_h = 41.0};
 
 ReedPetal reed = {
-    .youngsModulus = 70, // assumed value for woven carbon fiber in GPa
+    .youngsModulus = 70000.0, // assumed value for woven carbon fiber in N/mm²
     .length = 43.7,
     .width = 60.0,
     .thickness = 0.5, // assumed value
@@ -29,11 +29,13 @@ ReedPetal reed = {
 
 ReedBlock block = {
     .num_ports = 2,
+    .intake = 38, // mm measurement from stock carburator
     .length = 33.5,
     .width = 39.6,
     .angle = 90,     // assumed for simplicity of calculations.
     .r = 0.919,      // radius of semicircle
     .stop_height = 8 // assumed value
+
 };
 
 int main() {
@@ -59,4 +61,19 @@ int main() {
   printf("the max crankcase volume is %f mm^3 (%.1f CC)\n",
          get_crankcase_volume(engine, 0.0),
          get_crankcase_volume(engine, 0.0) / 1000.0);
+
+  // --- Reed valve diagnostics ---
+  printf("\n=== Reed Valve Diagnostics ===\n");
+  printf("Reed Petal:\n");
+  printf("  inertia        = %.4f mm^4\n", get_reed_inertia(reed));
+  printf("  stiffness      = %.4f N/mm\n", get_reed_stiffness(reed));
+  printf("  cracking_dp    = %.2f Pa\n", get_cracking_dp(reed, 0.1));
+
+  printf("\nReed Block:\n");
+  printf("  throat area    = %.2f mm^2\n", get_throat_area(block));
+  printf("  pipe area      = %.2f mm^2\n", get_pipe_area(block));
+  printf("  port area ratio= %.4f\n", get_port_area(block));
+  printf("  seal perimeter = %.2f mm\n", get_seal_perimeter(block));
+  printf("  h_crit         = %.4f mm\n", h_crit(block));
+  printf("==============================\n");
 }
