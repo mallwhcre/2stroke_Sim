@@ -116,6 +116,38 @@ P = mRT / V
 
 During the closed portion of the cycle (both ports covered), mass `m`, gas constant `R`, and temperature `T` are held constant, giving isentropic-like compression/expansion. Once either port opens, the pressure is set to atmospheric — a placeholder for scavenging flow modelling to be added later.
 
+In the main simulation loop, pressure is recalculated at every crank angle step by calling `get_pressure()`, which checks whether the exhaust and transfer ports are open at the current angle and applies the appropriate model.
+
+### Seal Perimeter (L-Perimeter)
+
+The seal perimeter `L` is the effective perimeter of the reed petal that admits flow when the valve lifts. Following Blair's assumption, only the **front edge** of the petal is considered — flow from the sides is unlikely because the petal seats tightly against the block along its length. Therefore:
+
+```
+L = W_port
+```
+
+where `W_port` is the port cutout width. This simplification avoids overestimating the flow area at small lifts.
+
+### Critical Lift Height
+
+The critical lift height `h_crit` is the petal deflection at which the curtain area around the seal perimeter equals the port area. Below this lift the flow is controlled by the curtain opening; above it the port itself becomes the restriction. It is calculated as:
+
+```
+h_crit = A_port_ratio / L
+```
+
+where `A_port_ratio` is the port-to-pipe area ratio returned by `get_port_area()` and `L` is the seal perimeter. This threshold determines which discharge coefficient (`Cd_low` or `Cd_high`) is used for the reed valve flow model.
+
+### Reed Tip Deflection
+
+Tip deflection models the reed petal as a uniform cantilever beam loaded by the pressure differential across it. The deflection at the free end is:
+
+```
+δ = (ΔP × w × L⁴) / (8 × E × I)
+```
+
+where `ΔP` is the pressure difference across the petal, `w` is the petal width, `L` is the petal length, `E` is Young's modulus, and `I` is the second moment of area. If the calculated deflection exceeds `maxlift` (the stop plate clearance), it is clamped to `maxlift`.
+
 ---
 
 ## Project Structure
