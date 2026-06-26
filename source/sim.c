@@ -7,6 +7,8 @@
 #define M_PI 3.14159265358979323846
 #endif
 
+// note: all units have been converted to SI,
+
 // yz125 2005
 const EngineSpecs engine = {.bore = 54.0e-3,              // m (was 54.0 mm)
                             .stroke = 54.5e-3,            // m
@@ -20,10 +22,10 @@ const EngineSpecs engine = {.bore = 54.0e-3,              // m (was 54.0 mm)
 
 ReedPetal reed = {
     .youngsModulus = 70000.0e6, // Pa (was 70000 N/mm² = 70 GPa)
-    .length = 43.7e-3,         // m
-    .width = 60.0e-3,          // m
-    .thickness = 0.5e-3,       // m (assumed value)
-    .maxlift = 8.0e-3,         // m (assumed value)
+    .length = 43.7e-3,          // m
+    .width = 60.0e-3,           // m
+    .thickness = 0.5e-3,        // m (assumed value)
+    .maxlift = 8.0e-3,          // m (assumed value)
 
 };
 
@@ -37,15 +39,19 @@ ReedBlock block = {
     .stop_height = 8.0e-3 // m (assumed value)
 
 };
+TrapState trapped = {
+    .crankAngle = get_port_angle(engine.ePort_h, engine),
 
+};
 int main() {
-  // Volume is now natively m³, no /1e9 conversion needed
   double mass = (P_atm * get_volume(engine, BDC)) / (R_air * T_atm);
   int revs = 1;
 
   double totalAngle = 0.0;
   double angleStep = 1.0;
   double maxAngle = 360.0 * revs;
+
+  int trapped = 0; // previous trapped state
 
   while (totalAngle < maxAngle) {
     double curAngle = fmod(totalAngle, 360.0);
@@ -56,11 +62,12 @@ int main() {
     double dp = P_atm - pressure;
 
     // Display: piston position converted m -> mm for readability
-    printf("crank angle is %10.4f  piston position is %10.6f mm  air pressure is "
-           "%14.2f Pa\n",
-           curAngle, pistonPos * 1000.0,
-           get_pressure(curAngle, get_volume(engine, curAngle), T_atm, mass,
-                        engine));
+    printf(
+        "crank angle is %10.4f  piston position is %10.6f mm  air pressure is "
+        "%14.2f Pa\n",
+        curAngle, pistonPos * 1000.0,
+        get_pressure(curAngle, get_volume(engine, curAngle), T_atm, mass,
+                     engine));
 
     totalAngle += angleStep;
   }

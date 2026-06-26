@@ -46,9 +46,27 @@ typedef struct {
 
 } ReedBlock;
 
+typedef struct {
+  double crankAngle;  // degrees, crank angle at exhaust port closure
+  double compRatio;   // trapped compression ratio (unitless)
+  double volume;      // m³, trapping volume
+  double pressure;    // Pa, trapping pressure
+  double temperature; // K, trapping temperature
+  double R_tr;        // J/(kg·K), gas constant of trapped mixture
+
+  double mass;      // kg, total trapped mass
+  double air_mass;  // kg, trapped air mass
+  double fuel_mass; // kg, trapped fuel mass
+
+  double heat_release;  // J, total heat release
+  double fuel_vap_rate; // kg/deg, fuel vaporization rate per crank degree
+
+} TrapState;
+
 double get_pressure(double crankAngle, double volume, double temperature,
                     double mass, EngineSpecs engine);
 
+// reed valve
 double get_reed_inertia(ReedPetal reed);
 double get_reed_stiffness(ReedPetal reed);
 double get_cracking_dp(ReedPetal reed, double crackingThresh);
@@ -61,5 +79,11 @@ double get_port_area(ReedBlock block);
 double get_seal_perimeter(ReedBlock block);
 
 double h_crit(ReedBlock block);
+
+// trapped
+double get_trapped_mass();
+double get_trapped_fuel(); // trapped fuel mass
+double get_heat_release();
+double get_vap_rate(); // evaporation rate
 
 #endif
