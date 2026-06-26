@@ -89,7 +89,7 @@ double get_seal_perimeter(ReedBlock block) {
 double h_crit(ReedBlock block) {
   double h_crit;
 
-  h_crit = get_port_area(block) / get_seal_perimeter(block);
+  h_crit = get_throat_area(block) / get_seal_perimeter(block);
 
   return h_crit;
 }
