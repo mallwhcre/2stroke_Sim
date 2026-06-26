@@ -50,6 +50,10 @@ int main() {
     double curAngle = fmod(totalAngle, 360.0);
     double pistonPos = get_piston_pos(curAngle, engine);
 
+    double pressure = get_pressure(curAngle, get_volume(engine, curAngle),
+                                   T_atm, mass, engine);
+    double dp = P_atm - pressure;
+
     printf("crank angle is %10.4f  piston position is %10.6f  air pressure is "
            "%14.2f\n",
            curAngle, pistonPos,

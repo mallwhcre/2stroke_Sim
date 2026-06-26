@@ -100,10 +100,10 @@ double get_tip_deflection(ReedPetal reed, double dp) {
   double I = get_reed_inertia(reed);
 
   deflection =
-      (dp * reed.length * pow(reed.length, 4)) / (8 * reed.youngsModulus * I);
+      (dp * reed.width * pow(reed.length, 4)) / (8 * reed.youngsModulus * I);
 
   if (deflection > reed.maxlift)
     deflection = reed.maxlift;
 
-  return deflection
+  return deflection;
 }
