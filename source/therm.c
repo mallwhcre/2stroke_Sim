@@ -14,9 +14,9 @@ double get_pressure(double crankAngle, double volume, double temperature,
 
   volume = get_volume(engine, crankAngle);
 
-  if (crankAngle > ePort_angle)
+  if ((crankAngle > ePort_angle) && (crankAngle < (360 - ePort_angle)))
     ePort_open = 1;
-  if (crankAngle > tPort_angle)
+  if ((crankAngle > tPort_angle) && (crankAngle < (360 - tPort_angle)))
     tPort_open = 1;
 
   if (!ePort_open && !tPort_open)
@@ -51,7 +51,7 @@ double get_cracking_dp(ReedPetal reed, double crackingThresh) {
   return dp;
 }
 
-double get_throat_area(ReedBlock block) {
+double get_throat_area(ReedBlock block) { // total effective reed port area.
   double angle_rad = block.angle * M_PI / 180.0;
 
   double throat;
