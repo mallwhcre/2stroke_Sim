@@ -5,6 +5,8 @@ A zero-dimensional (0D) thermodynamic simulator for a 2-stroke engine, modelled 
 > **Reference:** Blair, G. P. — *Design and Simulation of Two-Stroke Engines* (SAE International)
 ---
 
+> ⚠️ **Readme is curently out of date**
+
 ## Notes
  
 > ⚠️ **Estimated Parameters**
