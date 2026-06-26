@@ -6,14 +6,14 @@
 
 typedef struct {
 
-  double bore;
-  double stroke;
-  double conRod;
-  double crank_throw;
-  double compRatio;
-  double crankCcr; // crankcase comp ratio
-  double ePort_h;
-  double tPort_h;
+  double bore;         // m
+  double stroke;       // m
+  double conRod;       // m
+  double crank_throw;  // m
+  double compRatio;    // unitless
+  double crankCcr;     // unitless, crankcase comp ratio
+  double ePort_h;      // m
+  double tPort_h;      // m
 
 } EngineSpecs;
 

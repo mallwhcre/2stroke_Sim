@@ -20,7 +20,7 @@ double get_pressure(double crankAngle, double volume, double temperature,
     tPort_open = 1;
 
   if (!ePort_open && !tPort_open)
-    pressure = (mass * R_air * T_atm) / (volume / 1e9);
+    pressure = (mass * R_air * T_atm) / volume;
 
   else
     pressure = P_atm;

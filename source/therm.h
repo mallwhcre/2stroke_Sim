@@ -13,15 +13,15 @@ typedef struct {
   double opening_rate; // d(opening)/dt
 
   // material
-  double youngsModulus; // N/mm² (MPa)
+  double youngsModulus; // Pa
 
   // Geometry
-  double length;    // mm
-  double width;     // mm
-  double thickness; // mm
-  double maxlift;   // mm
+  double length;    // m
+  double width;     // m
+  double thickness; // m
+  double maxlift;   // m
 
-  double stiffness;   // k N/mm
+  double stiffness;   // N/m
   double cracking_dp; // Pa, minimum ΔP to begin opening
 
   // Flow
@@ -34,16 +34,15 @@ typedef struct {
 
   int num_ports; // number of ports
 
-  int intake; // size of inner diameter of the intake throat from carb
-              // measurment
+  double intake; // m, inner diameter of intake throat from carb
 
-  double length; // port cutout length mm
-  double width;  // port cutout width mm
+  double length; // m, port cutout length
+  double width;  // m, port cutout width
 
-  double angle; // angle of reed block  degrees
+  double angle; // degrees, angle of reed block
 
-  double r;           // corner radius of port cutout
-  double stop_height; // mm
+  double r;           // m, corner radius of port cutout
+  double stop_height; // m
 
 } ReedBlock;
 

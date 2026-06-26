@@ -5,33 +5,33 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-#define R_air 287.05   // mm^3
+#define R_air 287.05   // J/(kg·K)
 #define T_atm 293.15   // 20 deg c in kelvin
 #define P_atm 101325.0 // atmospheric pressure in pascals
 
 #define BDC 180.0
 #define TDC 0.0
 
-#define ePort 28.0 // mm from top
-#define tPort 41.0 // mm from top
+#define ePort 28.0e-3 // m (was 28.0 mm from top)
+#define tPort 41.0e-3 // m (was 41.0 mm from top)
 
 typedef struct {
 
-  double bore;
-  double stroke;
-  double conRod;
-  double throw;
-  double compRatio;
-  double crankCcr; // crankcase comp ratio
+  double bore;         // m
+  double stroke;       // m
+  double conRod;       // m
+  double throw;        // m
+  double compRatio;    // unitless
+  double crankCcr;     // unitless, crankcase comp ratio
 
 } EngineSpecs;
 
 // yz125 2005
 const EngineSpecs engine = {
-    .bore = 54.0,
-    .stroke = 54.5,
-    .conRod = 102.0,
-    .throw = 54.5 / 2.0,
+    .bore = 54.0e-3,              // m
+    .stroke = 54.5e-3,            // m
+    .conRod = 102.0e-3,           // m
+    .throw = 54.5e-3 / 2.0,      // m
     .compRatio = 10.7,
     .crankCcr = 1.3 //!!! Not real data cannot find it!!
 };
@@ -46,7 +46,8 @@ double get_port_angle(double portHeight, EngineSpecs engine);
 double get_crankcase_volume(EngineSpecs engine);
 
 int main() {
-  double mass = (P_atm * (get_volume(engine, BDC) / 1e9)) / (R_air * T_atm);
+  // Volume is now natively m³, no /1e9 conversion needed
+  double mass = (P_atm * get_volume(engine, BDC)) / (R_air * T_atm);
   int revs = 1;
 
   double totalAngle = 0.0;
@@ -57,9 +58,10 @@ int main() {
     double curAngle = fmod(totalAngle, 360.0);
     double pistonPos = get_piston_pos(curAngle, engine);
 
-    printf("crank angle is %10.4f  piston position is %10.6f  air pressure is "
-           "%14.2f\n",
-           curAngle, pistonPos,
+    // Display: piston position converted m -> mm for readability
+    printf("crank angle is %10.4f  piston position is %10.6f mm  air pressure is "
+           "%14.2f Pa\n",
+           curAngle, pistonPos * 1000.0,
            get_pressure(curAngle, get_volume(engine, curAngle), T_atm, mass));
 
     totalAngle += angleStep;
@@ -129,7 +131,7 @@ double get_pressure(double crankAngle, double volume, double temperature,
     tPort_open = 1;
 
   if (!ePort_open && !tPort_open)
-    pressure = (mass * R_air * T_atm) / (volume / 1e9);
+    pressure = (mass * R_air * T_atm) / volume;
 
   else
     pressure = P_atm;
